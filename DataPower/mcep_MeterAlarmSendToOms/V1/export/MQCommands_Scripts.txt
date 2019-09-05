@@ -1,0 +1,25 @@
+#####Start QM#####
+strmqm TestCommands
+
+
+#####Run QM#####
+runmqsc TestCommands
+
+#####Creation of queues#####
+DEFINE QLOCAL('TestCommandsQueue')  DESCR('TestCommands')  DEFPSIST(YES)
+
+
+#####Creation of Topic#####
+define TOPIC(TestCommandsTopicName) TOPICSTR('topicstring')
+
+
+
+#####Creation of Subscription#####
+DEFINE SUB(TestCommandsSubName) TOPICSTR('topicstring') TOPICOBJ(SYSTEM.BROKER.DEFAULT.STREAM)  DEST('TestCommandsQueue')  DESTQMGR('TestCommands')
+
+
+#####Creation of Listener#####
+DEFINE LISTENER(TESTCOMMANDS_LISTENER) PORT(1422)
+
+
+
