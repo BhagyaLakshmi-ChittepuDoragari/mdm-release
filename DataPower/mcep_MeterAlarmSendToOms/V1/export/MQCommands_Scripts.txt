@@ -1,22 +1,24 @@
 #####Start QM#####
-strmqm TestCommands
+strmqm mcep_ESBMQ
 
 
 #####Run QM#####
-runmqsc TestCommands
+runmqsc mcep_ESBMQ
 
 #####Creation of queues#####
-DEFINE QLOCAL('TestCommandsQueue')  DESCR('TestCommands')  DEFPSIST(YES)
+DEFINE QLOCAL('METERALARMS.OMS.CEP')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
 
 
 #####Creation of Topic#####
-define TOPIC(TestCommandsTopicName) TOPICSTR('topicstring')
+define TOPIC(mcep_ESBMQ_CEP_meter_alarms) TOPICSTR('CEP/meter/alarms')
 
 
 
 #####Creation of Subscription#####
 DEFINE SUB(TestCommandsSubName) TOPICSTR('topicstring') TOPICOBJ(SYSTEM.BROKER.DEFAULT.STREAM)  DEST('TestCommandsQueue')  DESTQMGR('TestCommands')
 
+Example::
+1) DEFINE SUB(METERALARMS.OMS.CEP.SUBSCRIPTION) TOPICSTR('CEP/meter/alarms') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('METERALARMS.OMS.CEP')  DESTQMGR('mcep_ESBMQ')
 
 #####Creation of Listener#####
 DEFINE LISTENER(TESTCOMMANDS_LISTENER) PORT(1422)
