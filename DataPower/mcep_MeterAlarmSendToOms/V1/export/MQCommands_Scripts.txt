@@ -1,29 +1,81 @@
+-------------------------------------------------------******MQ DETAILS FOR PON INTERFACE******--------------------------------------------------------
+
 #####Start QM#####
 strmqm mcep_ESBMQ
-
 
 #####Run QM#####
 runmqsc mcep_ESBMQ
 
 #####Creation of queues#####
-DEFINE QLOCAL('METERALARMS.OMS.CEP')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
 
+DEFINE QLOCAL('METERALARMS.OMS.IIBQM')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
+DEFINE QLOCAL('METERALARMS.OMS.CEP')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
+DEFINE QLOCAL('METERALARMS.OMS.DP')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
+DEFINE QLOCAL('METERALARMS.OMS.LOGGING')  DESCR('mcep_ESBMQ')  DEFPSIST(YES)
 
 #####Creation of Topic#####
-define TOPIC(mcep_ESBMQ_CEP_meter_alarms) TOPICSTR('CEP/meter/alarms')
 
-
+DEFINE TOPIC(mcep_ESBMQ_CEP_meter_alarms) TOPICSTR('CEP/meter/alarms')
 
 #####Creation of Subscription#####
-DEFINE SUB(TestCommandsSubName) TOPICSTR('topicstring') TOPICOBJ(SYSTEM.BROKER.DEFAULT.STREAM)  DEST('TestCommandsQueue')  DESTQMGR('TestCommands')
 
-Example::
-1) DEFINE SUB(METERALARMS.OMS.CEP.SUBSCRIPTION) TOPICSTR('CEP/meter/alarms') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('METERALARMS.OMS.CEP')  DESTQMGR('mcep_ESBMQ')
-
-2) DEFINE SUB(MAS_ESBMQ_ESM_meter_alarms_SUBSCRIPTION) TOPICSTR('MAS/ESM/meter/alarms/#') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('MAS.ESM.TO.OMS')  DESTQMGR('mas_ESBMQ_DTE')
+DEFINE SUB(METERALARMS.OMS.CEP.SUBSCRIPTION) TOPICSTR('CEP/meter/alarms') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('METERALARMS.OMS.CEP')  DESTQMGR('mcep_ESBMQ')
 
 #####Creation of Listener#####
-DEFINE LISTENER(TESTCOMMANDS_LISTENER) PORT(1422)
 
+DEFINE LISTENER(LISTENER_mcep_ESBMQ) PORT(1418)
 
+#####Creation of Channel#####
 
+DEFINE CHANNEL(mcep_ESBMQ_SrvrChnl) CHLTYPE(SVRCONN)
+
+-------------------------------------------------------******MQ DETAILS FOR PRN INTERFACE******--------------------------------------------------------
+
+#####Start QM#####
+strmqm mas_ESBMQ_DTE
+
+#####Run QM#####
+runmqsc mas_ESBMQ_DTE
+
+#####Creation of queues#####
+
+DEFINE QLOCAL('MAS.ESM.TO.OMS')  DESCR('mas_ESBMQ_DTE')  DEFPSIST(YES)
+DEFINE QLOCAL('MAS.OMS.LOGGING')  DESCR('mas_ESBMQ_DTE')  DEFPSIST(YES)
+DEFINE QLOCAL('MAS.ESM.TO.DP')  DESCR('mas_ESBMQ_DTE')  DEFPSIST(YES)
+DEFINE QLOCAL('MAS.ESM.TO.IIBQM')  DESCR('mas_ESBMQ_DTE')  DEFPSIST(YES)
+
+#####Creation of Topic#####
+
+define TOPIC(mas_ESBMQ_DTE_OMS_meter_alarms) TOPICSTR('MAS/ESM/meter/alarms/#')
+
+#####Creation of Subscription#####
+
+DEFINE SUB(MAS_ESBMQ_ESM_meter_alarms_SUBSCRIPTION) TOPICSTR('MAS/ESM/meter/alarms/#') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('MAS.ESM.TO.OMS')  DESTQMGR('mas_ESBMQ_DTE')
+
+#####Creation of Listener#####
+
+DEFINE LISTENER(LISTENER_mas_ESBMQ_DTE) PORT(1420)
+
+#####Creation of Channel#####
+
+DEFINE CHANNEL(mas_ESBMQ_SrvrChnl) CHLTYPE(SVRCONN)
+
+-------------------------------------------------------******MQ DETAILS FOR CommonFramework INTERFACE******--------------------------------------------------------
+
+#####Start QM#####
+strmqm CommonFramework
+
+#####Run QM#####
+runmqsc CommonFramework
+
+#####Creation of queues#####
+
+DEFINE QLOCAL('RETRY.IIB.QUEUE')  DESCR('CommonFramework')  DEFPSIST(YES)
+
+#####Creation of Listener#####
+
+DEFINE LISTENER(LISTENER_CommonFramework) PORT(1421)
+
+#####Creation of Channel#####
+
+DEFINE CHANNEL(CmnFrmwrk_SrvrChnl) CHLTYPE(SVRCONN)
