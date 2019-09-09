@@ -1,27 +1,23 @@
-#####Start QM#####
-strmqm CommonFramework 
+-------------------------------------------------------******MQ DETAILS FOR CommonFramework INTERFACE******--------------------------------------------------------
 
+#####Start QM#####
+strmqm CommonFramework
 
 #####Run QM#####
-runmqsc CommonFramework 
+runmqsc CommonFramework
 
 #####Creation of queues#####
+
 DEFINE QLOCAL('RETRY.IIB.QUEUE')  DESCR('CommonFramework')  DEFPSIST(YES)
-
-
-#####Creation of Topic#####
-define TOPIC(mcep_ESBMQ_CEP_meter_alarms) TOPICSTR('CEP/meter/alarms')
-
-
-
-#####Creation of Subscription#####
-DEFINE SUB(TestCommandsSubName) TOPICSTR('topicstring') TOPICOBJ(SYSTEM.BROKER.DEFAULT.STREAM)  DEST('TestCommandsQueue')  DESTQMGR('TestCommands')
-
-Example::
-1) DEFINE SUB(METERALARMS.OMS.CEP.SUBSCRIPTION) TOPICSTR('CEP/meter/alarms') TOPICOBJ(SYSTEM.DEFAULT.SUB)  DEST('METERALARMS.OMS.CEP')  DESTQMGR('mcep_ESBMQ')
+DEFINE QLOCAL('DATA.ERROR')  DESCR('CommonFramework')  DEFPSIST(YES)
+DEFINE QLOCAL('FAILURE.QUEUE')  DESCR('CommonFramework')  DEFPSIST(YES)
+DEFINE QLOCAL('PRO.LOG4J.ERROR.QL')  DESCR('CommonFramework')  DEFPSIST(YES)
+DEFINE QLOCAL('PRO.LOG4J.IN.QL')  DESCR('CommonFramework')  DEFPSIST(YES)
 
 #####Creation of Listener#####
-DEFINE LISTENER(TESTCOMMANDS_LISTENER) PORT(1422)
 
+DEFINE LISTENER(LISTENER_CommonFramework) PORT(1421)
 
+#####Creation of Channel#####
 
+DEFINE CHANNEL(CmnFrmwrk_SrvrChnl) CHLTYPE(SVRCONN)
