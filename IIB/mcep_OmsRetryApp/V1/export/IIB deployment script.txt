@@ -1,0 +1,3 @@
+mqsicreateexecutiongroup TESTNODE_SYarlagadda -e Shared
+mqsiapplybaroverride -b C:\Users\akpandey\Desktop\Bhagya\BARfiles\RetryApplication.bar -p C:\Users\akpandey\Desktop\RetryApplication.properties  -o  RetryApplication.int.bar -r
+mqsideploy TESTNODE_SYarlagadda -e default -a RetryApplication.int.bar - w 600
